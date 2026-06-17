@@ -1,0 +1,23 @@
+# ══════════════════════════════════════════════════
+#  Profile Optimizer — Dependencies
+# ══════════════════════════════════════════════════
+#  Install: pip install -r requirements.txt
+# ══════════════════════════════════════════════════
+
+# ── Core (Required) ─────────────────────────────
+streamlit>=1.30.0          # Web UI framework
+pdfplumber>=0.10.0         # LinkedIn PDF text extraction
+requests>=2.31.0           # GitHub API + Gemini/Groq REST calls
+
+# ── AI Providers (install based on what you use) ─
+anthropic>=0.40.0          # For Claude (Anthropic) — pip install anthropic
+openai>=1.30.0             # For OpenAI (GPT-4o) — pip install openai
+# google-generativeai     # NOT needed — Gemini uses REST API directly
+# groq                    # NOT needed — Groq uses REST API directly
+# ollama                  # NOT needed — Ollama uses local REST API
+
+# ── Notes ───────────────────────────────────────
+# - Gemini, Groq, Ollama work via REST API — no extra SDK needed
+# - If you ONLY use Gemini/Groq/Ollama, you can skip anthropic & openai:
+#     pip install streamlit pdfplumber requests
+# - Python 3.10+ required
