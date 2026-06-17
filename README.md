@@ -297,10 +297,10 @@ Upload your LinkedIn PDF **once** in any tab → it's automatically available in
 ## Project Structure
 
 ```
-optimizer/
+careerkit/
 ├── app.py                 # Main app — all 10 tools (Streamlit)
 ├── requirements.txt       # Python dependencies
-├── profile_optimizer.py   # CLI version (legacy, for reference)
+├── .gitignore             # Blocks secrets & generated files
 └── README.md              # This file
 ```
 
