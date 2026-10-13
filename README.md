@@ -6,6 +6,22 @@ Works with **any AI model**: Claude, OpenAI GPT-4o, Google Gemini (free), Groq (
 
 ---
 
+## Engineering highlights
+
+CareerKit is an **end-to-end Python application** for profile analysis and job-search workflows, designed to work across multiple LLM providers instead of assuming a single model API.
+
+- **Application layer:** Streamlit interface with separate tools for profile review, resume generation, job-description matching, and interview preparation.
+- **Provider abstraction:** documented support for hosted LLM APIs and locally run Ollama models, allowing users to choose between flexibility and local inference.
+- **Document ingestion:** extracts content from uploaded LinkedIn PDFs so that analyses share the same source material.
+- **Privacy-aware workflow:** documents local configuration and a no-app-server-storage approach; users should review the chosen model provider's own handling policies.
+- **Engineering trade-off:** the same application features can run across distinct providers, but quality, latency, context windows, pricing, and privacy depend on the provider selected.
+
+**What reviewers can inspect:** [app.py](app.py) for the application and model-integration flow, [requirements.txt](requirements.txt) for dependencies, and this README for reproducible setup.
+
+Built by [Sanyam Sharma](https://github.com/humaniods), a Voice AI Engineer focused on multilingual speech, LLM applications and Python backend development.
+
+---
+
 ## What This Tool Does
 
 One app, 10 tools — upload your LinkedIn PDF once, use everywhere:
