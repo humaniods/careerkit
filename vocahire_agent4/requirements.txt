@@ -1,0 +1,4 @@
+psycopg[binary]>=3.2,<4
+playwright>=1.55,<2
+boto3>=1.40,<2
+pytest>=8,<10
