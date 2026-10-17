@@ -1,0 +1,49 @@
+name: VocaHire Agent 4 (verified applications)
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Safety mode'
+        type: choice
+        options: ['dry-run', 'submit-one']
+        required: true
+        default: 'dry-run'
+permissions:
+  contents: read
+concurrency:
+  group: vocahire-agent4-prod
+  cancel-in-progress: false
+jobs:
+  agent4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: vocahire-applications
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install -r vocahire_agent4/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Run safety tests
+        run: PYTHONPATH=vocahire_agent4 pytest -q vocahire_agent4/tests
+      - name: Safe queue scan
+        if: inputs.mode == 'dry-run'
+        env:
+          DATABASE_URL: ${{ secrets.VOCAHIRE_DATABASE_URL }}
+        run: PYTHONPATH=vocahire_agent4 python -m agent4.runner
+      - name: Apply to ONE fully verified ATS job
+        if: inputs.mode == 'submit-one'
+        env:
+          DATABASE_URL: ${{ secrets.VOCAHIRE_DATABASE_URL }}
+          NEON_STORAGE_ENDPOINT: ${{ secrets.VOCAHIRE_STORAGE_ENDPOINT }}
+          NEON_STORAGE_REGION: us-east-1
+          NEON_S3_READ_KEY_ID: ${{ secrets.VOCAHIRE_S3_READ_KEY_ID }}
+          NEON_S3_READ_SECRET: ${{ secrets.VOCAHIRE_S3_READ_SECRET }}
+          APPLICANT_NAME: ${{ secrets.VOCAHIRE_APPLICANT_NAME }}
+          APPLICANT_EMAIL: ${{ secrets.VOCAHIRE_APPLICANT_EMAIL }}
+          APPLICANT_PHONE: ${{ secrets.VOCAHIRE_APPLICANT_PHONE }}
+          ALLOW_REAL_SUBMISSIONS: yes
+        run: PYTHONPATH=vocahire_agent4 python -m agent4.runner --submit
